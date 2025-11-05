@@ -1,0 +1,261 @@
+// {
+//     "version": "2.0.0",
+//     "tasks": [
+//         {
+//             "label": "CMake Configure",
+//             "type": "shell",
+//             "command": "powershell",
+//             "args": [
+//                 "-File",
+//                 ".\\build-tasks.ps1",
+//                 "-task",
+//                 "CMakeConfigure"
+//             ],
+//             "group": {
+//                 "kind": "build",
+//                 "isDefault": true
+//             },
+//             "presentation": {
+//                 "echo": false,
+//                 "reveal": "always",
+//                 "focus": false,
+//                 "panel": "shared",
+//                 "showReuseMessage": false,
+//                 "clear": false
+//             }
+//         },
+//         {
+//             "label": "CMake Build",
+//             "type": "shell",
+//             "command": "powershell",
+//             "args": [
+//                 "-File",
+//                 ".\\build-tasks.ps1",
+//                 "-task",
+//                 "CMakeBuild"
+//             ],
+//             "group": {
+//                 "kind": "build",
+//                 "isDefault": true
+//             },
+//             "problemMatcher": [
+//                 {
+//                     "owner": "custom",
+//                     "fileLocation": [
+//                         // https://blog.csdn.net/qq_29111047/article/details/128245104
+//                         "autoDetect",
+//                         "${workspaceFolder}"
+//                     ],
+//                     "pattern": [
+//                         {
+//                             // 匹配包含 error: 的行，提取文件名、行号、消息
+//                             "regexp": "(.*):(\\d+):\\d+:\\s*(error:.*)", // GCC风格错误
+//                             "file": 1,
+//                             "line": 2,
+//                             "message": 3
+//                         },
+//                         {
+//                             // 通用匹配（无文件名和行号）
+//                             "regexp": "(error:.*)", // 匹配任意位置的 error:
+//                             "message": 1
+//                         },
+//                     ],
+//                     "severity": "error"
+//                 }
+//             ],
+//             "presentation": {
+//                 "echo": false,
+//                 "reveal": "always",
+//                 "focus": false,
+//                 "panel": "shared",
+//                 "showReuseMessage": false,
+//                 "clear": false
+//             }
+//         },
+//         {
+//             "label": "Flash",
+//             "type": "shell",
+//             "command": "powershell",
+//             "args": [
+//                 "-File",
+//                 ".\\build-tasks.ps1",
+//                 "-task",
+//                 "Flash"
+//             ],
+//             "group": {
+//                 "kind": "build",
+//                 "isDefault": true
+//             },
+//             "problemMatcher": [],
+//             "presentation": {
+//                 "echo": false,
+//                 "reveal": "always",
+//                 "focus": false,
+//                 "panel": "shared",
+//                 "showReuseMessage": false,
+//                 "clear": false
+//             }
+//         },
+//         {
+//             "label": "Delete build",
+//             "type": "shell",
+//             "command": "powershell",
+//             "args": [
+//                 "-File",
+//                 ".\\build-tasks.ps1",
+//                 "-task",
+//                 "DeleteBuild"
+//             ],
+//             "group": {
+//                 "kind": "build",
+//                 "isDefault": true
+//             },
+//             "problemMatcher": [],
+//             "presentation": {
+//                 "echo": false,
+//                 "reveal": "always",
+//                 "focus": false,
+//                 "panel": "shared",
+//                 "showReuseMessage": false,
+//                 "clear": false
+//             }
+//         }
+//     ]
+// }
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMake Configure",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-File",
+                ".\\build-tasks.ps1",
+                "-task",
+                "CMakeConfigure"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "CMake Build",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-File",
+                ".\\build-tasks.ps1",
+                "-task",
+                "CMakeBuild"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                {
+                    "owner": "custom",
+                    "fileLocation": [
+                        "autoDetect",
+                        "${workspaceFolder}"
+                    ],
+                    "pattern": [
+                        // 错误匹配
+                        {
+                            "regexp": "^(.*):(\\d+):(\\d+):\\s+(error:.*)",  // GCC风格错误
+                            "file": 1,
+                            "line": 2,
+                            "column": 3,
+                            "message": 4,
+                        },
+                    ],
+                    "severity": "error"
+                },
+                {
+                    "owner": "custom",
+                    "fileLocation": [
+                        "autoDetect",
+                        "${workspaceFolder}"
+                    ],
+                    "pattern": [
+                        // 新增警告匹配
+                        {
+                            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning:.*)",  // GCC风格警告
+                            "file": 1,
+                            "line": 2,
+                            "column": 3,
+                            "message": 4,
+                        },
+                    ],
+                    "severity": "warning"
+                }
+            ],
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "Flash",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-File",
+                ".\\build-tasks.ps1",
+                "-task",
+                "Flash"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "Delete build",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-File",
+                ".\\build-tasks.ps1",
+                "-task",
+                "DeleteBuild"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        }
+    ]
+}

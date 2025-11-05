@@ -1,0 +1,59 @@
+{
+    "[c]": {
+        "editor.formatOnSave": true,
+        "editor.wordBasedSuggestions": "off",
+        "editor.semanticHighlighting.enabled": true,
+        "editor.stickyScroll.defaultModel": "foldingProviderModel",
+        "editor.suggest.insertMode": "replace",
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
+    "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
+    "files.associations": {
+        "usart.h": "c",
+        "main.h": "c",
+        "varargs.h": "c",
+        "stdarg.h": "c",
+        "w25q64_commands.h": "c",
+        "error_define.h": "c",
+        "w25q64.h": "c"
+    },
+    "cmake.options.statusBarVisibility": "hidden",
+    "cmake.options.advanced": {
+        "build": {
+            "statusBarVisibility": "hidden",
+            "inheritDefault": "visible"
+        },
+        "launch": {
+            "statusBarVisibility": "hidden",
+            "inheritDefault": "visible"
+        },
+        "debug": {
+            "statusBarVisibility": "hidden",
+            "inheritDefault": "visible"
+        }
+    },
+    // 需要Task Buttons插件: 作者spencerwmiles
+    "VsCodeTaskButtons.showCounter": false,
+    "VsCodeTaskButtons.tasks": [
+        {
+            "label": "$(trash) Delete",
+            "task": "Delete build",
+            "tooltip": "Delete build dirctory"
+        },
+        {
+            "label": "$(wrench) Configure",
+            "task": "CMake Configure",
+            "tooltip": "Run CMake Configure Task"
+        },
+        {
+            "label": "$(chip) Flash",
+            "task": "Flash",
+            "tooltip": "Run Flash Task"
+        },
+        {
+            "label": "$(tools) Build",
+            "task": "CMake Build",
+            "tooltip": "Run CMake Build Task"
+        },
+    ]
+}
