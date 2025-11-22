@@ -40,6 +40,7 @@ void ProcessDoubleClickReleaseDebouncing();
 void ProcessDoubleClickRelease();
 
 static Ec11KeyStateMachineItem ec11StateMachineTable[] = {
+    // ec11 按键的检测
     {EC11_KEY_CLICK, KEY_STEP_PRESS, ProcessClickPress},
     {EC11_KEY_CLICK, KEY_STEP_PRESS_DEBOUNCING, ProcessClickPressDebouncing},
     {EC11_KEY_CLICK, KEY_STEP_RELEASE_DEBOUNCING,
@@ -256,13 +257,13 @@ void ProcessDoubleClickRelease()
     //	uint32_t currTick = HAL_GetTick();
     //	if (currTick - ec11Encoder.lastPressTick > KEY_LONG_CLICK_TIME_700MS) {
     //		keyInfo.keyState = EC11_KEY_LONG_CLICK;  //
-    //单击+双击阈值内长按识别为长按
+    // 单击+双击阈值内长按识别为长按
     //	}
     WriteBuf(&ec11Encoder.keyCircleBuf, keyInfo);
     Ec11ResetStateMachine();
 }
 
-static void Ec11TickProcess()
+static void Ec11TickProcess() // ec11 旋转的识别
 {
     static Ec11DirectionState ec11CurrentState = EC11_DIRECTION_INVALID;
     static GPIO_PinState lastALevel = GPIO_PIN_SET;
@@ -337,7 +338,7 @@ void Ec11StateMachineProcess()
 {
     for (uint32_t i = 0;
          i < sizeof(ec11StateMachineTable) / sizeof(ec11StateMachineTable[0]);
-         ++i) {
+         ++i) { // ec11 按键识别
         if (ec11StateMachineTable[i].currentState ==
                 ec11Encoder.ec11StateMachine.currentState &&
             ec11StateMachineTable[i].currentStep ==
@@ -346,7 +347,7 @@ void Ec11StateMachineProcess()
         }
     }
 
-    Ec11TickProcess();
+    Ec11TickProcess(); // ec11 旋转识别
 }
 
 void GetKeyState(KeyInfo *out, uint16_t *remain, uint8_t *ret)
