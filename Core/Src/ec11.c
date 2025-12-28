@@ -216,13 +216,16 @@ void ProcessDoubleClickPress()
 void ProcessDoubleClickDebouncing()
 {
     uint32_t currTick = HAL_GetTick();
-    if (HAL_GPIO_ReadPin(ec11_Key_GPIO_Port, ec11_Key_Pin) == GPIO_PIN_RESET) {
-        if (currTick - ec11Encoder.debouncingTick > KEY_DEBOUNCING_TIME_10MS) {
+    if (currTick - ec11Encoder.debouncingTick > KEY_DEBOUNCING_TIME_10MS) {
+        if (HAL_GPIO_ReadPin(ec11_Key_GPIO_Port, ec11_Key_Pin) ==
+            GPIO_PIN_RESET) {
             ec11Encoder.ec11StateMachine.currentState = EC11_KEY_DOUBLE_CLICK;
             ec11Encoder.ec11StateMachine.currentStep =
                 KEY_STEP_RELEASE_DEBOUNCING;
             ec11Encoder.lastPressTick = currTick;
             ec11Encoder.debouncingTick = 0;
+        } else { // 去抖失败则回退到上一步就绪轮询判断
+            ec11Encoder.ec11StateMachine.currentStep = KEY_STEP_PRESS;
         }
     }
 }
